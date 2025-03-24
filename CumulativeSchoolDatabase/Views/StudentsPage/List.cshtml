@@ -1,0 +1,8 @@
+﻿@model IEnumerable<CumulativeSchoolDatabase.Models.Students>
+
+@foreach (CumulativeSchoolDatabase.Models.Students Students in Model)
+{
+    <div>
+        <a href="/StudentsPage/Show/@Students.StudentId">@Students.StudentFName @Students.StudentLName</a>
+    </div>
+}

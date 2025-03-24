@@ -1,0 +1,9 @@
+﻿
+@model IEnumerable<CumulativeSchoolDatabase.Models.Courses>
+
+@foreach (CumulativeSchoolDatabase.Models.Courses Courses in Model)
+{
+    <div>
+        <a href="/CoursesPage/Show/@Courses.CourseId">@Courses.CourseCode @Courses.CourseNumber</a>
+    </div>
+}
