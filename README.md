@@ -34,7 +34,7 @@ This school project connects the server to a MySQL Database with MySql.Data.MySq
 
 ## Tools 
 Tools used in this project is:
-- MicroSoft Visual Studio 'ASP.NET CORE Web App (Model-View-Controller) #C
+- MicroSoft Visual Studio 'ASP.NET CORE Web App (Model-View-Controller) #C'
 - MAMP
 - Swagger
 - cURL
