@@ -3,7 +3,7 @@
 
 Models/SchoolDbContext.cs
 - A class which represents the connection to the database. Be mindful of the connection string fields!
-Controllers/TeacherAPIController.cs, Controllers/StudentsAPIController.cs, Controllers/CoursesAPIController
+- Controllers/TeacherAPIController.cs, Controllers/StudentsAPIController.cs, Controllers/CoursesAPIController
 
 - An API Controller which allows us to access information about Teachers,Students,Courses
   
