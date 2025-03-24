@@ -5,24 +5,24 @@ This school project connects our server to a MySQL Database with MySql.Data.MySq
    * A class which represents the connection to the database. Be mindful of the connection string fields!
 
 - Controllers/TeacherAPIController.cs, Controllers/StudentsAPIController.cs, Controllers/CoursesAPIController
-* An API Controller which allows us to access information about Teachers,Students,Courses
+  * An API Controller which allows us to access information about Teachers,Students,Courses
   
 - Program.cs
-* Configuration of the application
+  * Configuration of the application
 
 ## Testing
 -Test the ListTeacherNames API responds with information about teachers.
-* GET api/Teacher/ListTeacherNames through cURL and MVC 
+  * GET api/Teacher/ListTeacherNames through cURL and MVC 
 
 ## Common Errors
 - Make sure "MySQL.Data" is installed in your project
-* If not installed, go to "Tools" > "Nuget Package Manager" > "Manage Nuget Packages for Solution" > "Browse" > type "MySQL.Data" > "Install"
+  * If not installed, go to "Tools" > "Nuget Package Manager" > "Manage Nuget Packages for Solution" > "Browse" > type "MySQL.Data" > "Install"
 
 - Make sure "Swashbuckle.AspNetCore.Swagger" is installed in your project
-* If not installed, go to "Tools" > "Nuget Package Manager" > "Manage Nuget Packages for Solution" > "Browse" > type "Swashbuckle.AspNetCore.Swagger" > "Install"
+  * If not installed, go to "Tools" > "Nuget Package Manager" > "Manage Nuget Packages for Solution" > "Browse" > type "Swashbuckle.AspNetCore.Swagger" > "Install"
 
 - Make sure "Swashbuckle.AspNetCore.SwaggerGen" is installed in your project
-* If not installed, go to "Tools" > "Nuget Package Manager" > "Manage Nuget Packages for Solution" > "Browse" > type "Swashbuckle.AspNetCore.SwaggerGen" > "Install"
+  * If not installed, go to "Tools" > "Nuget Package Manager" > "Manage Nuget Packages for Solution" > "Browse" > type "Swashbuckle.AspNetCore.SwaggerGen" > "Install"
 
 - Make sure the view folder name 'TeacherPage' needs to match the the first two name of the Controller 'TeacherPageController' name
   
