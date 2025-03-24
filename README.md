@@ -13,8 +13,8 @@ This school project connects the server to a MySQL Database with MySql.Data.MySq
   * Configuration of the application
 
 ## Testing
--Test the ListTeacherNames API responds with information about teachers.
-  * GET api/Teacher/ListTeacherNames through cURL and MVC 
+- Test the ListTeacherNames API responds with information about teachers.
+    * GET api/Teacher/ListTeacherNames through cURL and MVC 
 
 ## Common Errors
 - Make sure "MySQL.Data" is installed in your project
