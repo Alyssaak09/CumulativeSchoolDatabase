@@ -1,5 +1,5 @@
 # ASP.NET Core School Database System Application 
-- This school project connects our server to a MySQL Database with MySql.Data.MySqlClient.
+This school project connects our server to a MySQL Database with MySql.Data.MySqlClient.
 
 - Models/SchoolDbContext.cs
    * A class which represents the connection to the database. Be mindful of the connection string fields!
