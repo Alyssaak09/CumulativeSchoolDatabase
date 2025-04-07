@@ -1,0 +1,16 @@
+﻿@model CumulativeSchoolDatabase.Models.Students
+
+<div id="containershow">
+    <nav>
+        <a class="navlink" href="/StudentsPage/Show/@Model.StudentId">Go Back</a>
+    </nav>
+
+    <h2>Are you sure you want to delete @Model.StudentFName @Model.StudentLName?</h2>
+    <p>This action cannot be undone.</p>
+
+    <form method="POST" action="/StudentsPage/Delete/@Model.StudentId">
+        <button class="btn btn-danger">
+            Confirm Delete
+        </button>
+    </form>
+</div>

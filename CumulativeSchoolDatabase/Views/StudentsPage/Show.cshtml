@@ -1,5 +1,19 @@
 ﻿@model CumulativeSchoolDatabase.Models.Students
 
-<h1>@Model.StudentFName @Model.StudentLName</h1>
-<p>@Model.StudentNumber</p>
-<p>@Model.EnrolDate.ToString("yyyy-M-d")</p>
+<div class="container">
+
+    <h1>@Model.StudentFName @Model.StudentLName</h1>
+
+
+    <div class="mb-3">
+        <a href="/StudentsPage/List" class="btn btn-secondary">Back to List</a>
+        <a href="/StudentsPage/DeleteConfirm/@Model.StudentId" class="btn btn-danger">Delete</a>
+    </div>
+
+
+    <div>
+        <p><strong>Student Number:</strong> @Model.StudentNumber</p>
+        <p><strong>Enrol Date:</strong> @Model.EnrolDate.ToString("yyyy-M-d")</p>
+    </div>
+</div>
+

@@ -156,5 +156,136 @@ namespace CumulativeSchoolDatabase.Controllers
             return SelectedTeacher;
         }
 
+
+
+        /// <summary>
+        /// Adds a Teacher to the database
+        /// </summary>
+        /// <param name="TeacherData">Teacher Object</param>
+        /// <example>
+        /// POST: https://localhost:7122/api/Teacher/AddTeacher
+        /// Headers: Content-Type: application/json
+        /// Request Body:
+        /// {
+        ///     "TeacherFname":"Kayla",
+        ///     "TeacherLname":"Wilson",
+        ///     "HireDate":"2025-04-02",
+        ///     "EmployeeNumber":"T550",
+        ///     "Salary":85.55 
+        /// } -> 409
+        /// </example>
+        /// <returns>
+        /// The inserted Teacher Id from the database if successful. 0 if Unsuccessful
+        /// </returns>
+        [HttpPost("AddTeacher")]
+        public int AddTeacher([FromBody] Teacher TeacherData)
+        {
+            try
+            {
+                
+                if (string.IsNullOrWhiteSpace(TeacherData.TeacherFName) || string.IsNullOrWhiteSpace(TeacherData.TeacherLName))
+                {
+                   
+                    return 409;
+                }
+
+                // 'using' will close the connection after the code executes
+                using (MySqlConnection Connection = _context.AccessDatabase())
+                {
+                    Connection.Open();
+                    // Establish a new command (query) for our database
+                    MySqlCommand Command = Connection.CreateCommand();
+
+                    Command.CommandText = "insert into teachers (teacherfname, teacherlname, hiredate, employeenumber, salary) values (@teacherfname, @teacherlname, @hiredate, @employeenumber, @salary)";
+                    Command.Parameters.AddWithValue("@teacherfname", TeacherData.TeacherFName);
+                    Command.Parameters.AddWithValue("@teacherlname", TeacherData.TeacherLName);
+                    Command.Parameters.AddWithValue("@hiredate", TeacherData.HireDate);
+                    Command.Parameters.AddWithValue("@employeenumber", TeacherData.EmployeeNumber);
+                    Command.Parameters.AddWithValue("@salary", TeacherData.Salary);
+
+                    // Execute the query
+                    int rowsAffected = Command.ExecuteNonQuery();
+
+                   
+                    if (rowsAffected > 0)
+                    {
+                      
+                        return Convert.ToInt32(Command.LastInsertedId);
+                    }
+                    else
+                    {
+                      
+                        return 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+               
+                Console.WriteLine($"Error: {ex.Message}");
+
+                
+                return 0;
+            }
+        }
+
+
+
+
+        /// <summary>
+        /// Deletes a Teacher from the database
+        /// </summary>
+        /// <param name="TeacherId">Primary key of the teacher to delete</param>
+        /// <example>
+        /// DELETE: https://localhost:7122/api/Teacher/DeleteTeacher/25
+        /// </example>
+        /// <returns>
+        /// The number of rows affected by the delete operation. 
+        /// </returns>
+        [HttpDelete("DeleteTeacher/{TeacherId}")]
+        public IActionResult DeleteTeacher(int TeacherId)
+        {
+            try
+            {
+                using (MySqlConnection Connection = _context.AccessDatabase())
+                {
+                    Connection.Open();
+
+                    
+                    MySqlCommand checkCommand = Connection.CreateCommand();
+                    checkCommand.CommandText = "SELECT COUNT(*) FROM teachers WHERE teacherid = @id";
+                    checkCommand.Parameters.AddWithValue("@id", TeacherId);
+
+                    int count = Convert.ToInt32(checkCommand.ExecuteScalar());
+
+                    if (count == 0)
+                    {
+                        
+                        return NotFound("Teacher not found.");
+                    }
+
+                    // Proceed with the delete operation
+                    MySqlCommand deleteCommand = Connection.CreateCommand();
+                    deleteCommand.CommandText = "DELETE FROM teachers WHERE teacherid = @id";
+                    deleteCommand.Parameters.AddWithValue("@id", TeacherId);
+
+                    int rowsAffected = deleteCommand.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        
+                        return Ok($"Teacher with ID {TeacherId} deleted successfully.");
+                    }
+
+                   
+                    return StatusCode(500, "Error deleting teacher.");
+                }
+            }
+            catch (Exception)
+            {
+               
+                return StatusCode(500, "An error occurred while attempting to delete the teacher.");
+            }
+        }
     }
 }

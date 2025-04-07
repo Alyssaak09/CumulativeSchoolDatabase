@@ -6,7 +6,7 @@ namespace CumulativeSchoolDatabase.Controllers
 {
     public class CoursesPageController : Controller
     {
-        // Rely on the API to retrieve students information
+        // Rely on the API to retrieve courses information
         // Both the CoursesAPI and CoursesPage controllers should rely on a unified "Service", with an explicit interface
         private readonly CoursesAPIController _api;
 
@@ -30,8 +30,6 @@ namespace CumulativeSchoolDatabase.Controllers
             Courses SelectedCourse = _api.FindCourses(id);
             return View(SelectedCourse);
         }
-
-
 
     }
 }

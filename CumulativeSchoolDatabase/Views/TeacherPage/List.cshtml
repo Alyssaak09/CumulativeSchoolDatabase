@@ -1,11 +1,23 @@
 ﻿﻿
 @model IEnumerable<CumulativeSchoolDatabase.Models.Teacher>
 
-@foreach (CumulativeSchoolDatabase.Models.Teacher Teacher in Model)
-{
-    <div>
-        <a href="/TeacherPage/Show/@Teacher.TeacherId">@Teacher.TeacherFName @Teacher.TeacherLName</a>
-    </div>
-}
+<div>
+    <a class="btn btn-primary" href="/TeacherPage/New" style="margin-bottom:10px;">Add Teacher</a>
+</div>
+
+<div>
+    <a href="/Home/Index" class="btn btn-secondary" style="margin-bottom:10px;">Back to Home</a>
+</div>
+
+<h2>Teacher List</h2>
+
+<div class="list-group">
+    @foreach (CumulativeSchoolDatabase.Models.Teacher Teacher in Model)
+    {
+        <div class="list-group-item">
+            <a href="/TeacherPage/Show/@Teacher.TeacherId">@Teacher.TeacherFName @Teacher.TeacherLName</a>
+        </div>
+    }
+</div>
 
 
