@@ -307,7 +307,7 @@ namespace CumulativeSchoolDatabase.Controllers
         /// {
         ///     "TeacherId":12,
         ///	    "TeacherFname":"Kayla",
-        ///	    "TeacherLname":"Wilson",
+        ///	    "TeacherLname":"Wilson-Jones",
         ///	    "HireDate":"2025-04-02",
         ///	    "EmployeeNumber":"T550",
         ///	    "Salary":"90.00"
