@@ -1,5 +1,7 @@
-﻿using CumulativeSchoolDatabase.Models;
+﻿using System;
+using CumulativeSchoolDatabase.Models;
 using Microsoft.AspNetCore.Mvc;
+using Mysqlx.Datatypes;
 
 
 namespace CumulativeSchoolDatabase.Controllers
@@ -36,7 +38,7 @@ namespace CumulativeSchoolDatabase.Controllers
         [HttpGet]
         public IActionResult New()
         {
-           
+
             return View(new Teacher());
         }
 
@@ -44,27 +46,27 @@ namespace CumulativeSchoolDatabase.Controllers
         [HttpPost]
         public IActionResult Create(Teacher NewTeacher)
         {
-           
+
             if (string.IsNullOrWhiteSpace(NewTeacher.TeacherFName) || string.IsNullOrWhiteSpace(NewTeacher.TeacherLName))
             {
-              
+
                 ModelState.AddModelError("", "Teacher's first and last name are required.");
 
-              
+
                 return View("New", NewTeacher);
             }
 
-            
+
             if (!ModelState.IsValid)
             {
-                
+
                 return View("New", NewTeacher);
             }
 
-         
+
             int TeacherId = _api.AddTeacher(NewTeacher);
 
-         
+
             if (TeacherId > 0)
             {
                 // Redirect to the "Show" action to view the newly created teacher
@@ -72,9 +74,9 @@ namespace CumulativeSchoolDatabase.Controllers
             }
             else
             {
-                
+
                 ModelState.AddModelError("", "Failed to create teacher. Please try again.");
-              
+
                 return View("New", NewTeacher);
             }
         }
@@ -101,27 +103,51 @@ namespace CumulativeSchoolDatabase.Controllers
         [HttpPost]
         public IActionResult Delete(int id)
         {
-           
+
             var result = _api.DeleteTeacher(id);
 
-            
+
             if (result is OkObjectResult)
             {
                 TempData["SuccessMessage"] = "Teacher successfully deleted.";
             }
-           
+
             else if (result is NotFoundObjectResult)
             {
                 TempData["ErrorMessage"] = "Teacher not found.";
             }
-            
+
             else if (result is StatusCodeResult statusCodeResult && statusCodeResult.StatusCode == 500)
             {
                 TempData["ErrorMessage"] = "An error occurred while deleting the teacher.";
             }
 
-           
+
             return RedirectToAction("List");
+        }
+
+        // GET : TeacherPage/Edit/{id}
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            Teacher SelectedTeacher = _api.FindTeacher(id);
+            return View(SelectedTeacher);
+        }
+
+        // POST: TeacherPage/Update/{id}
+        [HttpPost]
+        public IActionResult Update(int id, string TeacherFName, string TeacherLName, DateTime HireDate, string EmployeeNumber, decimal salary)
+        {
+            Teacher UpdatedTeacher = new Teacher();
+            UpdatedTeacher.TeacherFName = TeacherFName;
+            UpdatedTeacher.TeacherLName = TeacherLName;
+            UpdatedTeacher.HireDate = HireDate;
+            UpdatedTeacher.EmployeeNumber = EmployeeNumber;
+            UpdatedTeacher.Salary = salary;
+
+            _api.UpdateTeacher(id, UpdatedTeacher);
+
+            return RedirectToAction("Show", new { id = id });
         }
 
     }

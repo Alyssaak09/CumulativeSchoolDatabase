@@ -1,19 +1,15 @@
 ﻿@model CumulativeSchoolDatabase.Models.Teacher
 
-<div class="container">
+<h1>@Model.TeacherFName @Model.TeacherLName</h1>
 
-    <h1>@Model.TeacherFName @Model.TeacherLName</h1>
+<nav>
+    <a href="/TeacherPage/List">Back to List</a>
+    <a class="alert-warning" href="/TeacherPage/DeleteConfirm/@Model.TeacherId">Delete</a>
+    <a href="/TeacherPage/Edit/@Model.TeacherId">Edit</a>
+</nav>
 
-
-    <div class="mb-3">
-        <a href="/TeacherPage/List" class="btn btn-secondary">Back to List</a>
-        <a href="/TeacherPage/DeleteConfirm/@Model.TeacherId" class="btn btn-danger">Delete</a>
-    </div>
-
-
-    <div>
-        <p><strong>Hire Date:</strong> @Model.HireDate.ToString("yyyy-M-d")</p>
-        <p><strong>Employee Number:</strong> @Model.EmployeeNumber</p>
-        <p><strong>Salary:</strong> $@Model.Salary.ToString("0.00")</p>
-    </div>
+<div>
+    <p><strong>Hire Date:</strong> @Model.HireDate.ToString("yyyy-M-d")</p>
+    <p><strong>Employee Number:</strong> @Model.EmployeeNumber</p>
+    <p><strong>Salary:</strong> $@Model.Salary.ToString("0.00")</p>
 </div>

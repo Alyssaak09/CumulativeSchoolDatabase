@@ -287,5 +287,80 @@ namespace CumulativeSchoolDatabase.Controllers
                 return StatusCode(500, "An error occurred while attempting to delete the teacher.");
             }
         }
+
+        /// <summary>
+        /// Updates an Teacher in the database. Data is Teacher object, request query contains ID
+        /// </summary>
+        /// <param name="TeacherData">Teacher Object</param>
+        /// <param name="TeacherId">The Teacher ID primary key</param>
+        /// <example>
+        /// PUT: https://localhost:7122/api/Teacher/UpdateTeacher/12
+        /// Headers: Content-Type: application/json
+        /// Request Body:
+        /// {
+        ///	    "TeacherFname":"Kayla",
+        ///	    "TeacherLname":"Wilson",
+        ///	    "HireDate":"2025-04-02",
+        ///	    "EmployeeNumber":"T550",
+        ///	    "Salary":"85.55"
+        /// } -> 
+        /// {
+        ///     "TeacherId":12,
+        ///	    "TeacherFname":"Kayla",
+        ///	    "TeacherLname":"Wilson",
+        ///	    "HireDate":"2025-04-02",
+        ///	    "EmployeeNumber":"T550",
+        ///	    "Salary":"90.00"
+        /// }
+        /// </example>
+        /// <returns>
+        /// The updated Teacher object
+        /// </returns>
+        [HttpPut(template: "UpdateTeacher/{TeacherId}")]
+        public ActionResult<Teacher> UpdateTeacher(int TeacherId, [FromBody] Teacher TeacherData)
+        {
+            
+            if (string.IsNullOrWhiteSpace(TeacherData.TeacherFName) || string.IsNullOrWhiteSpace(TeacherData.TeacherLName))
+            {
+                return BadRequest(new { message = "Teacher first name and last name cannot be empty." });
+            }
+
+            
+            if (TeacherData.HireDate > DateTime.Now)
+            {
+                return BadRequest(new { message = "Hire date cannot be in the future." });
+            }
+
+            
+            if (TeacherData.Salary < 0)
+            {
+                return BadRequest(new { message = "Salary must be a non-negative value." });
+            }
+
+            int rowsAffected = 0;
+
+            using (MySqlConnection Connection = _context.AccessDatabase())
+            {
+                Connection.Open();
+                MySqlCommand Command = Connection.CreateCommand();
+
+                Command.CommandText = "UPDATE teachers SET teacherfname = @teacherfname, teacherlname = @teacherlname, hiredate = @hiredate, employeenumber = @employeenumber, salary = @salary WHERE teacherid = @id";
+                Command.Parameters.AddWithValue("@teacherfname", TeacherData.TeacherFName);
+                Command.Parameters.AddWithValue("@teacherlname", TeacherData.TeacherLName);
+                Command.Parameters.AddWithValue("@hiredate", TeacherData.HireDate);
+                Command.Parameters.AddWithValue("@employeenumber", TeacherData.EmployeeNumber);
+                Command.Parameters.AddWithValue("@salary", TeacherData.Salary);
+                Command.Parameters.AddWithValue("@id", TeacherId);
+
+                rowsAffected = Command.ExecuteNonQuery();
+            }
+
+            if (rowsAffected == 0)
+            {
+                return NotFound(new { message = $"Teacher with ID {TeacherId} not found." });
+            }
+
+            return Ok(FindTeacher(TeacherId));
+        }
     }
 }
